@@ -7,6 +7,10 @@ public final class Application {
 
     private static ApplicationContext context;
 
+    public static ApplicationContext getContext(){
+        return context;
+    }
+
     public static void run(Class<?> applicationClass){
         context = new AnnotationApplicationContext(applicationClass);
         context.initialize();
