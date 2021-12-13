@@ -1,5 +1,7 @@
 package com.ltp.analog.reflection;
 
+import com.ltp.analog.reflection.qualifier.ClassQualifier;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +15,13 @@ import java.util.stream.Collectors;
 public class ReflectionUtils {
 
     private static final AnalogClassLoader cl = new AnalogClassLoader();
+
+    public static List<Class> getClassesInPackageRecursively(String packName, ClassQualifier qualifier) {
+        return getClassesInPackageRecursively(packName)
+                .stream()
+                .filter(qualifier::test)
+                .collect(Collectors.toList());
+    }
 
     public static List<Class> getClassesInPackageRecursively(String packName){
         List<String> packs = getSubpackagesRecursively(packName);
