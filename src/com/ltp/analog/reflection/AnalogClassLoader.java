@@ -1,27 +1,26 @@
 package com.ltp.analog.reflection;
 
-import com.ltp.analog.core.Application;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class AnalogClassLoader extends ClassLoader {
-
-    public AnalogClassLoader() {
-        super(Application.getContext().getApplicationClass().getClassLoader());
-    }
+public class AnalogClassLoader extends ClassLoader{
 
     @Override
-    public Class findClass(String name) throws ClassNotFoundException {
+    public Class findClass(String name) {
+        Class cl = findLoadedClass(name);
+
+        if(cl != null){
+            return cl;
+        }
+
         byte[] b = loadClassFromFile(name);
         return defineClass(name, b, 0, b.length);
     }
 
     private byte[] loadClassFromFile(String fileName)  {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(
-                fileName.replace('.', File.separatorChar) + ".class");
+        InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(
+                fileName.replaceAll("[.]", "/") + ".class");
         byte[] buffer;
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         int nextValue = 0;
@@ -36,28 +35,4 @@ public class AnalogClassLoader extends ClassLoader {
         return buffer;
     }
 
-    @Override
-    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        Class<?> c = findLoadedClass(name);
-        if (c == null) {
-            try {
-                super.loadClass(name, resolve);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            if (c == null) {
-                c = findClass(name);
-            }
-
-            if(c == null){
-                c = findClass(name);
-            }
-
-        }
-        if (resolve) {
-            resolveClass(c);
-        }
-        return c;
-    }
 }
