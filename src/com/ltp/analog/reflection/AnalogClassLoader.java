@@ -14,6 +14,14 @@ public class AnalogClassLoader extends ClassLoader{
             return cl;
         }
 
+        ClassLoader parent = getParent();
+
+        if(parent != null){
+            try {
+                return parent.loadClass(name);
+            } catch (ClassNotFoundException e) {}
+        }
+
         byte[] b = loadClassFromFile(name);
         return defineClass(name, b, 0, b.length);
     }

@@ -1,12 +1,10 @@
 package com.ltp.analog.reflection;
 
+import com.ltp.analog.Testing;
 import com.ltp.analog.reflection.qualifier.ClassQualifier;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

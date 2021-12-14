@@ -1,9 +1,9 @@
 package com.ltp.analog.reflection.qualifier;
 
-public class Qualifiers {
+public final class Qualifiers {
 
-    public static ClassQualifier annotatedBy(Class<?> annotation){
-        return (cl) -> cl.getAnnotation(annotation) != null;
+    public static ClassQualifier annotatedBy(Class annotation){
+        return cl -> cl.isAnnotationPresent(annotation);
     }
 
     private Qualifiers(){}
